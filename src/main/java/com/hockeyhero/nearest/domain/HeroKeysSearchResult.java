@@ -6,16 +6,16 @@ import lombok.Data;
 @Data
 public class HeroKeysSearchResult {
 
-    private Long hero_id;
+    private Long id;
     private Float distance; 
 	
-	public HeroKeysSearchResult (BigInteger heroId, Double distance) {
-		this.hero_id = heroId.longValue(); 
+	public HeroKeysSearchResult (BigInteger id, Double distance) {
+		this.id = id.longValue(); 
 		this.distance = distance.floatValue(); 
 	}
 
 	@Override
 	public String toString() {
-		return "HeroKeysSearchResult [distance=" + distance + ", hero_id=" + hero_id + "]";
+		return "HeroKeysSearchResult [distance=" + distance + ", id=" + id + "]";
 	}	
 }

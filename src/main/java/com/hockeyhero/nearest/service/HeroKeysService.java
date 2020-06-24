@@ -1,6 +1,7 @@
 package com.hockeyhero.nearest.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import com.hockeyhero.nearest.domain.HeroKeys;
 import com.hockeyhero.nearest.domain.HeroKeysSearchCriteria;
 import com.hockeyhero.nearest.domain.HeroKeysSearchResult;
 import com.hockeyhero.nearest.repository.HeroKeysRepository;
-import com.hockeyhero.nearest.repository.HeroKeysRepositorySPImpl;
 
 @Service
 public class HeroKeysService {
@@ -47,5 +47,10 @@ public class HeroKeysService {
 	@Transactional
 	public List<HeroKeysSearchResult> findNearestHeroes(HeroKeysSearchCriteria heroKeysSearchCriteria) {
 		return heroKeysRepository.findNearest(heroKeysSearchCriteria);
+	}
+	
+	@Transactional 
+	public Optional<HeroKeys> findById(Long heroId) {
+		return heroKeysRepository.findById(heroId); 
 	}
 }

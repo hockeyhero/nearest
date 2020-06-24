@@ -8,6 +8,3 @@ import com.hockeyhero.nearest.domain.HeroKeysSearchResult;
 public interface HeroKeysRepositorySP {
 		public List<HeroKeysSearchResult> findNearest(HeroKeysSearchCriteria heroKeysSearchCriteria);
 }
-
-
-/* https://stackoverflow.com/questions/11880924/how-to-add-custom-method-to-spring-data-jpa */

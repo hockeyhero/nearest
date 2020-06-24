@@ -3,23 +3,22 @@ package com.hockeyhero.nearest.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-
-
 import java.io.Serializable;
 
-
-//https://medium.com/@kalpads/calling-stored-procedure-using-spring-jpa-ee37fa58ca2d
-
-
-	
 @Data
 @Entity
-@Table(name = "hero_keys")
+@Table(name = "hero_keys", 
+	indexes = {
+			@Index(name="myposition_idx",columnList = "myposition"),
+			@Index(name="age_idx",columnList = "age"),
+			@Index(name="skill_idx",columnList = "skill")
+	}
+)
 @SqlResultSetMapping(name = "HeroKeysSearchResult", 
 classes = @ConstructorResult(
 		targetClass = HeroKeysSearchResult.class, 
 		columns = {
-				@ColumnResult(name = "hero_id"),
+				@ColumnResult(name = "id"),
 				@ColumnResult(name = "distance")
 		}
 	)
@@ -42,16 +41,13 @@ classes = @ConstructorResult(
 	)
 })
 public class HeroKeys implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+    @Column(name="id", columnDefinition="BIGINT", unique=true)
+    private Long id; 
 
-    @Column(name="hero_id", columnDefinition="BIGINT")
-    private Long hero_id; 
-
-    @Column(name = "hide_me", columnDefinition="TINYINT")
+    @Column(name = "hideme", columnDefinition="TINYINT")
     private Boolean hideMe;
 
     @Column(name = "latitude", columnDefinition="DOUBLE", nullable = false)
@@ -68,5 +64,12 @@ public class HeroKeys implements Serializable {
 
     @Column(name = "skill", columnDefinition="TINYINT",nullable = false)
     private Integer skill;
-    
+
+	public Long getid() {
+		return id;
+	}
+
+	public void setid(Long id) {
+		this.id = id;
+	} 
 }
