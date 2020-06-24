@@ -3,6 +3,8 @@ package com.hockeyhero.nearest.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +22,7 @@ import com.hockeyhero.nearest.service.HeroKeysService;
 
 @RestController
 public class HeroKeysController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HeroKeysRepositorySPImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HeroKeysController.class);
 
 	
 	@Autowired
@@ -32,6 +34,7 @@ public class HeroKeysController {
 	
 	@PostMapping("/herokeys")
 	HeroKeys create(@RequestBody HeroKeys heroKeys) {
+		LOGGER.info(heroKeys.toString());
 		return heroKeysService.save(heroKeys);
 	}
 	
@@ -41,8 +44,14 @@ public class HeroKeysController {
 	}
 	
 	@PutMapping("/herokeys")
-	HeroKeys update(@RequestBody HeroKeys heroKeys) {
-		return heroKeysService.save(heroKeys);
+	ResponseEntity<HeroKeys> update(@RequestBody HeroKeys heroKeys) {
+		LOGGER.info(heroKeys.toString());
+		if (heroKeysService.findById(heroKeys.getid()).isPresent()) {
+			LOGGER.info("found");
+			return new ResponseEntity(heroKeysService.save(heroKeys), HttpStatus.OK); 
+		}
+		LOGGER.info("not found");
+		return new ResponseEntity(heroKeys, HttpStatus.BAD_REQUEST); 			
 	}
 	
 	@DeleteMapping("/herokeys/{id}")
@@ -60,10 +69,9 @@ public class HeroKeysController {
 			@RequestParam(required=false, defaultValue = "100") int highAge,
 			@RequestParam(required=false, defaultValue = "0")   int lowSkill,
 			@RequestParam(required=false, defaultValue = "10")  int highSkill)
-
-
 	{
 		HeroKeysSearchCriteria heroKeysSearchCriteria = new HeroKeysSearchCriteria(latitude, longitude, radius, position, lowAge, highAge, lowSkill, highSkill);
+		LOGGER.info(heroKeysSearchCriteria.toString()); 
 		return heroKeysService.findNearestHeroes(heroKeysSearchCriteria);
 	}
 	
