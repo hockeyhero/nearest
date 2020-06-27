@@ -1,16 +1,23 @@
 package com.hockeyhero.nearest.rest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,9 +27,11 @@ import com.hockeyhero.nearest.domain.HeroKeysSearchResult;
 import com.hockeyhero.nearest.repository.HeroKeysRepositorySPImpl;
 import com.hockeyhero.nearest.service.HeroKeysService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@RequestMapping("/herokeys")
 public class HeroKeysController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HeroKeysController.class);
 
 	
 	@Autowired
@@ -32,34 +41,30 @@ public class HeroKeysController {
 		// TODO Auto-generated constructor stub
 	}
 	
-	@PostMapping("/herokeys")
-	HeroKeys create(@RequestBody HeroKeys heroKeys) {
-		LOGGER.info(heroKeys.toString());
+	@PostMapping
+	HeroKeys createHeroKeys(@Valid @RequestBody HeroKeys heroKeys) {
 		return heroKeysService.save(heroKeys);
 	}
 	
-	@GetMapping("/herokeys")
+	@GetMapping
 	Iterable<HeroKeys> read() {
 		return heroKeysService.findAll();
 	}
 	
-	@PutMapping("/herokeys")
-	ResponseEntity<HeroKeys> update(@RequestBody HeroKeys heroKeys) {
-		LOGGER.info(heroKeys.toString());
+	@PutMapping
+	ResponseEntity<HeroKeys> update(@Valid @RequestBody HeroKeys heroKeys) {
 		if (heroKeysService.findById(heroKeys.getid()).isPresent()) {
-			LOGGER.info("found");
 			return new ResponseEntity(heroKeysService.save(heroKeys), HttpStatus.OK); 
 		}
-		LOGGER.info("not found");
 		return new ResponseEntity(heroKeys, HttpStatus.BAD_REQUEST); 			
 	}
 	
-	@DeleteMapping("/herokeys/{id}")
+	@DeleteMapping(value = "/{id}")
 	void delete(@PathVariable Long id) {
 		heroKeysService.deleteById(id);
 	}
 	
-	@GetMapping("/herokeys/search")
+	@GetMapping("/search")
 	Iterable<HeroKeysSearchResult> search(
 			@RequestParam(required=true) String latitude,
 			@RequestParam(required=true) String longitude,
@@ -70,9 +75,17 @@ public class HeroKeysController {
 			@RequestParam(required=false, defaultValue = "0")   int lowSkill,
 			@RequestParam(required=false, defaultValue = "10")  int highSkill)
 	{
-		HeroKeysSearchCriteria heroKeysSearchCriteria = new HeroKeysSearchCriteria(latitude, longitude, radius, position, lowAge, highAge, lowSkill, highSkill);
-		LOGGER.info(heroKeysSearchCriteria.toString()); 
+		HeroKeysSearchCriteria heroKeysSearchCriteria = new HeroKeysSearchCriteria(latitude, longitude, radius, position, lowAge, highAge, lowSkill, highSkill); 
 		return heroKeysService.findNearestHeroes(heroKeysSearchCriteria);
 	}
+	
+//	@ExceptionHandler(MethodArgumentNotValidException.class)
+//	List<FieldErrorMessage> exceptionHandler(MethodArgumentNotValidException e) {
+//		List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors(); 
+//		List<FieldErrorMessage> 
+//			fieldErrorMessages = fieldErrors.stream().map(fieldError -> 
+//				new FieldErrorMessage(fieldError.getField(), fieldError.getDefaultMessage())).collect(Collectors.toList());
+//	}
+	
 	
 }

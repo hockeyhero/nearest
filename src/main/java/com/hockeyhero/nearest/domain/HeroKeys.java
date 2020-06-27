@@ -3,6 +3,10 @@ package com.hockeyhero.nearest.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
+
 import java.io.Serializable;
 
 @Data
@@ -44,24 +48,30 @@ public class HeroKeys implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Positive
     @Column(name="id", columnDefinition="BIGINT", unique=true)
     private Long id; 
 
     @Column(name = "hideme", columnDefinition="TINYINT")
     private Boolean hideMe;
 
+    @Min(-90) @Max(90)
     @Column(name = "latitude", columnDefinition="DOUBLE", nullable = false)
     private Double latitude;
 
+    @Min(-180) @Max(180)
     @Column(name = "longitude", columnDefinition="DOUBLE", nullable = false)
     private Double longitude;
 
+    @Min(0) @Max(15)
     @Column(name = "myposition", columnDefinition="TINYINT", nullable = false)
     private Integer myposition;
 
+    @Positive
     @Column(name = "age", columnDefinition="TINYINT", nullable = false)
     private Integer age;
 
+    @Min(0) @Max(10)
     @Column(name = "skill", columnDefinition="TINYINT",nullable = false)
     private Integer skill;
 
