@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hockeyhero.nearest.domain.HeroKeys;
 import com.hockeyhero.nearest.domain.HeroKeysSearchCriteria;
 import com.hockeyhero.nearest.domain.HeroKeysSearchResult;
+import com.hockeyhero.nearest.exception.HeroExistsException;
 import com.hockeyhero.nearest.repository.HeroKeysRepositorySPImpl;
 import com.hockeyhero.nearest.service.HeroKeysService;
 
@@ -42,25 +43,22 @@ public class HeroKeysController {
 	}
 	
 	@PostMapping
-	HeroKeys createHeroKeys(@Valid @RequestBody HeroKeys heroKeys) {
-		return heroKeysService.save(heroKeys);
+	HeroKeys createHeroKeys(@Valid @RequestBody HeroKeys heroKeys) throws HeroExistsException {
+		return heroKeysService.createHeroKeys(heroKeys);
 	}
 	
 	@GetMapping
-	Iterable<HeroKeys> read() {
+	Iterable<HeroKeys> findAllHeroKeys() {
 		return heroKeysService.findAll();
 	}
 	
 	@PutMapping
-	ResponseEntity<HeroKeys> update(@Valid @RequestBody HeroKeys heroKeys) {
-		if (heroKeysService.findById(heroKeys.getid()).isPresent()) {
-			return new ResponseEntity(heroKeysService.save(heroKeys), HttpStatus.OK); 
-		}
-		return new ResponseEntity(heroKeys, HttpStatus.BAD_REQUEST); 			
+	HeroKeys updateHeroKeys(@Valid @RequestBody HeroKeys heroKeys) throws HeroExistsException {
+			return heroKeysService.updateHeroKeys(heroKeys); 
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	void delete(@PathVariable Long id) {
+	void deleteHeroKeys(@PathVariable Long id) throws HeroExistsException {
 		heroKeysService.deleteById(id);
 	}
 	
@@ -78,14 +76,4 @@ public class HeroKeysController {
 		HeroKeysSearchCriteria heroKeysSearchCriteria = new HeroKeysSearchCriteria(latitude, longitude, radius, position, lowAge, highAge, lowSkill, highSkill); 
 		return heroKeysService.findNearestHeroes(heroKeysSearchCriteria);
 	}
-	
-//	@ExceptionHandler(MethodArgumentNotValidException.class)
-//	List<FieldErrorMessage> exceptionHandler(MethodArgumentNotValidException e) {
-//		List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors(); 
-//		List<FieldErrorMessage> 
-//			fieldErrorMessages = fieldErrors.stream().map(fieldError -> 
-//				new FieldErrorMessage(fieldError.getField(), fieldError.getDefaultMessage())).collect(Collectors.toList());
-//	}
-	
-	
 }
