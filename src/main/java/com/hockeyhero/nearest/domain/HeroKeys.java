@@ -55,7 +55,8 @@ public class HeroKeys implements Serializable {
     @Column(name = "hideme", columnDefinition="TINYINT")
     private Boolean hideMe;
 
-    @Min(-90) @Max(90)
+    @Min(-90) 
+    @Max(90)
     @Column(name = "latitude", columnDefinition="DOUBLE", nullable = false)
     private Double latitude;
 

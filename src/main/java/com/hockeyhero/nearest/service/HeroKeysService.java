@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hockeyhero.nearest.domain.HeroKeys;
 import com.hockeyhero.nearest.domain.HeroKeysSearchCriteria;
 import com.hockeyhero.nearest.domain.HeroKeysSearchResult;
+import com.hockeyhero.nearest.exception.HeroExistsException;
 import com.hockeyhero.nearest.repository.HeroKeysRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,11 @@ public class HeroKeysService {
 	}
 	
 	@Transactional
-	public HeroKeys save(HeroKeys heroKeys) {
+	public HeroKeys createHeroKeys(HeroKeys heroKeys) throws HeroExistsException {
+		if (heroKeysRepository.findById(heroKeys.getid()).isPresent()) {
+			String errorMessage = "Entity already exists: " + heroKeys.getid().toString();
+			throw new HeroExistsException(errorMessage); 
+		}
 		return heroKeysRepository.save(heroKeys);
 	}
 	
@@ -36,13 +41,21 @@ public class HeroKeysService {
 	}
 	
 	@Transactional
-	public HeroKeys update(HeroKeys heroKeys) {
-		return heroKeysRepository.save(heroKeys);
+	public HeroKeys updateHeroKeys(HeroKeys heroKeys) throws HeroExistsException {
+		if (heroKeysRepository.findById(heroKeys.getid()).isPresent()) {
+			return heroKeysRepository.save(heroKeys);
+		}
+		String errorMessage = "Entity does not exist: " + heroKeys.getid().toString();
+		throw new HeroExistsException(errorMessage); 		
 	}
 
 	@Transactional
-	public void deleteById(Long id) {
-		heroKeysRepository.deleteById(id);
+	public void deleteById(Long id) throws HeroExistsException {
+		if (heroKeysRepository.findById(id).isPresent()) {
+			heroKeysRepository.deleteById(id);
+		}
+		String errorMessage = "Entity does not exist: " + id.toString();
+		throw new HeroExistsException(errorMessage); 
 	}	
 	
 	@Transactional
