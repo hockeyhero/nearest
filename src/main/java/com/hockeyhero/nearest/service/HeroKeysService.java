@@ -14,10 +14,11 @@ import com.hockeyhero.nearest.domain.HeroKeysSearchCriteria;
 import com.hockeyhero.nearest.domain.HeroKeysSearchResult;
 import com.hockeyhero.nearest.repository.HeroKeysRepository;
 
-@Service
-public class HeroKeysService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HeroKeysService.class);
+import lombok.extern.slf4j.Slf4j;
 
+@Service
+@Slf4j
+public class HeroKeysService {
     @Autowired
     private HeroKeysRepository		heroKeysRepository;
     
