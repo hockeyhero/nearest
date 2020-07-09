@@ -1,6 +1,8 @@
 package com.hockeyhero.nearest.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -10,6 +12,7 @@ import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "hero_keys", 
 	indexes = {
@@ -82,5 +85,19 @@ public class HeroKeys implements Serializable {
 
 	public void setid(Long id) {
 		this.id = id;
+	}
+
+	public HeroKeys(@Positive Long id, Boolean hideMe, @Min(-90) @Max(90) Double latitude,
+			@Min(-180) @Max(180) Double longitude, @Min(0) @Max(15) Integer myposition, @Positive Integer age,
+			@Min(0) @Max(10) Integer skill) {
+		super();
+		this.id = id;
+		this.hideMe = hideMe;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.myposition = myposition;
+		this.age = age;
+		this.skill = skill;
 	} 
+	
 }
