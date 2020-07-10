@@ -1,0 +1,19 @@
+machine:
+    services:
+        - docker
+    java:
+        version: oraclejdk8
+    node:
+        version: 8.9.4
+dependencies:
+    cache_directories:
+        - node
+        - node_modules
+        - ~/.m2
+    override:
+        - java -version
+test:
+    override:
+        - chmod +x mvnw
+        - ./mvnw clean test
+        - ./mvnw com.heroku.sdk:heroku-maven-plugin:1.1.1:deploy -DskipTests -Pprod -Dheroku.appName=
