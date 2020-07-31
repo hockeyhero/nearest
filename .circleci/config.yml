@@ -16,8 +16,8 @@ jobs:
         SPRING_PROFILES_ACTIVE: test
         SPRING_DATASOURCE_USERNAME: root
         SPRING_DATASOURCE_PASSWORD: ''
-        SPRING_JPA_HIBERNATE_DDL-AUTO: none        
-        SPRING_DATASOURCE_URL: mysql://root@localhost/hockeyhero_nearest
+        SPRING_JPA_HIBERNATE_DDL-AUTO: none   
+        SPRING_DATASOURCE_URL=jdbc:mysql://root@localhost/hockeyhero_nearest?useUnicode=true&characterEncoding=utf8
 
     steps: 
    
