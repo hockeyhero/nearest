@@ -35,6 +35,10 @@ jobs:
             - ~/.m2
           key: circleci-hockeyhero-{{ checksum "pom.xml" }}
       
+      # create the database 
+      - run: sudo apt install -y mysql-client
+      - run: mysql -h 127.0.0.1 -u root -e "create database hockeyhero_nearest"
+      
       # build the jar
       - run: mvn package 
 
