@@ -10,6 +10,11 @@ jobs:
       # primary container; this is where all `steps` will run
       - image: circleci/openjdk:8-jdk-stretch 
 
+     # secondary container
+      - image: circleci/mysql:latest
+    enviroment:
+        TEST_DATABASE_URL: mysql://root@localhost/circle_test
+
     # a collection of executable commands
     steps: 
 
