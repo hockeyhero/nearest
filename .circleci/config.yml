@@ -35,10 +35,26 @@ jobs:
             - ~/.m2
           key: circleci-hockeyhero-{{ checksum "pom.xml" }}
       
-      # create the database 
-      - run: sudo apt install -y mysql-client
-      - run: mysql -h 127.0.0.1 -u root -e "create database hockeyhero_nearest"
-      
+      # create the database
+      # Our primary container isn't MYSQL so run a sleep command until it's ready.
+          name: Waiting for MySQL to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+      - run:
+          name: Install MySQL CLI; Import dummy data; run an example query
+          command: |
+            sudo apt-get install default-mysql-client
+            mysql -h 127.0.0.1 -u root --execute="create database hockeyhero_nearest"
+            mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/createtables.sql
+            mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/insertdata.sql
+            mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/testprocedures.sql
+            
       # build the jar
       - run: mvn package 
 
