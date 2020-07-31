@@ -9,7 +9,7 @@ jobs:
       - image: circleci/openjdk:8-jdk-stretch #primary container
       - image: circleci/mysql:latest # secondary container
 
-      enviroment:
+    enviroment:
         MYSQL_ALLOW_EMPTY_PASSWORD: yes
         MYSQL_ROOT_PASSWORD: ''
         MYSQL_DATABASE: hockeyhero_nearest
