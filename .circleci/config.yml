@@ -25,9 +25,7 @@ jobs:
       # git pull from branch
       - checkout 
 
-      # set up testing environment
-      - setup_remote_docker:
-          docker_layer_caching: true
+      # login to docker hub
       - run:
           name: Login to DockerHub
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
