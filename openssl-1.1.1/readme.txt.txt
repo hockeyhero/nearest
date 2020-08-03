@@ -1,1 +1,0 @@
-https://kb.firedaemon.com/support/solutions/articles/4000121705-firedaemon-openssl-1-1-1h-binary-distribution-for-windows
