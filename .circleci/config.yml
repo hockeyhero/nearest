@@ -33,7 +33,7 @@ jobs:
       # decrypt secrets
       - run:
           name: Decrpyt Secrets
-          command: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/application.properties.secrets -out src/main/resources/application.properties -k $MYPASSWORD
+          command: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/config/application.properties.secrets -out src/main/resources/config/application.properties -k $MYPASSWORD
 
       
       # download and cache dependencies
