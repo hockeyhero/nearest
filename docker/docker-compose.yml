@@ -1,0 +1,53 @@
+# docker-compose to stand-up an hockeyhero_nearest and mysl environment. 
+# to stand-up/tear-down or update because of change, in a cmd.exe enter
+# the commands: 
+# -------------------------------------------------
+# docker-compose up
+# docker-compose down
+# docker-compose up --build
+
+version: '3.6'
+services:
+
+    hockeyhero_nearest-mysql:
+        image: mysql:hockeyhero_nearest
+        container_name: nearest_mysql
+        #volumes:
+            #- ~/volumes/gohockeyhero/mysql/:/var/lib/mysql/
+            # - type: bind
+            # source: /database
+            # target: /docker-entrypoint-initdb.d
+        restart: on-failure
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_ROOT_PASSWORD=hockeyhero
+            - MYSQL_DATABASE=hockeyhero_nearest
+        cap_add:
+            - SYS_NICE  # CAP_SYS_NICE
+        ports:
+            - 3306:3306
+#        command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+
+    hockeyhero_nearest-app:
+        depends_on:
+            - hockeyhero_nearest-mysql
+        #image: app:hockeyhero_nearest 
+        image: davidewan/hockeyhero_nearest:34
+        container_name: nearest_app
+        restart: on-failure
+        environment:
+            - WAIT_HOSTS=hockeyhero_nearest-mysql:3306
+            - WAIT_HOSTS_TIMEOUT=300
+            - WAIT_SLEEP_INTERVAL=30
+            - WAIT_HOST_CONNECT_TIMEOUT=30
+            - SPRING_PROFILES_ACTIVE=prod
+            - SPRING_DATASOURCE_USERNAME=root
+            - SPRING_DATASOURCE_PASSWORD=hockeyhero
+            - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+            - SPRING_DATASOURCE_URL=jdbc:mysql://hockeyhero_nearest-mysql:3306/hockeyhero_nearest?useUnicode=true&characterEncoding=utf8
+        ports:
+            - 8080:8080
+        command: sh -c "/wait && java ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom -jar /app.jar"            
+
+
+
