@@ -4,9 +4,9 @@ Nearest is a service that given a geolocation, radius and possibly other criteri
 
 ## Contributing
 
-Thank you for your interest in contributing! Please read the guidelines for contributing and then look through our issues with a help wanted label. 
+Thank you for your interest in contributing! Please read the guidelines for [contributing](https://github.com/DavidEwan/nearest/blob/master/CONTRIBUTING.md) and then look through our issues with a help wanted label. 
 
-Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms. 
+Please note that this project is released with a Contributor [Code of Conduct](https://github.com/DavidEwan/nearest/blob/master/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms. 
 
 ## Getting Started
 
