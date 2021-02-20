@@ -10,7 +10,12 @@ Please note that this project is released with a Contributor [Code of Conduct](h
 
 ## Getting Started
 
-TBD. 
+In the docs folder of this repository you will find: 
+
+- a [welcome](https://github.com/DavidEwan/nearest/blob/master/docs/00%20Welcome.md) message 
+- A breakdown of the [tools](https://github.com/DavidEwan/nearest/blob/master/docs/01%20Development%20Environment.md) you will need installed
+- A description of the [design](https://github.com/DavidEwan/nearest/blob/master/docs/02%20Architecture%20and%20Design.md).
+- The workflow for making a [change](https://github.com/DavidEwan/nearest/blob/master/docs/03%20Making%20Changes.md). 
 
 ## Future Goals
 
