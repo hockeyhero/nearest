@@ -8,7 +8,7 @@
 
 To work on the project you need to first fork the project. A fork is your own personal copy of the project. You create a fork by pressing the 'fork' button (see image below) on the *hockeyhero/nearest* project page. 
 
-![](C:\Work\nearest\docs\img\fork.png)
+![](https://github.com/DavidEwan/nearest/blob/master/docs/img/fork.jpg)
 
 GitHub will ask you where you want to put the fork; it should default to your personal GitHub account. 
 
