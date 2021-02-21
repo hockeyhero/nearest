@@ -8,15 +8,15 @@
 
 To work on the project you need to first fork the project. A fork is your own personal copy of the project. You create a fork by pressing the 'fork' button (see image below) on the *hockeyhero/nearest* project page. 
 
-![](C:\Work\nearest\docs\img\fork.png)
+![](https://github.com/DavidEwan/nearest/blob/master/docs/img/fork.png)
 
 GitHub will ask you where you want to put the fork; it should default to your personal GitHub account. 
 
-Switching over to your local account, you should now have a repository called 'nearest'. From here select the Code button and copy to your clipboard the string. 
+Switching over to your local account, you should now have a repository called 'nearest'. From here select the Code button and copy to your clipboard the access string. 
 
-In the image below you can see I've switched to my personal GitHub account, I'm on the project page for my personal copy of the 'nearest' repository (it even says its 'forked' from hockeyhero), and I'm going to select the 'Code' button the expose the access string. 
+In the image below you can see I've switched to my personal GitHub account, I'm on the project page for my personal copy of the 'nearest' repository (it even says its 'forked' from hockeyhero/nearest), and I'm going to select the 'Code' button the expose the access string. 
 
-![](C:\Work\nearest\docs\img\clone.png)
+![](https://github.com/DavidEwan/nearest/blob/master/docs/img/clone.png)
 
 Finally, on your laptop, its time to use Git. Open a cmd.exe and enter the command: 
 
@@ -24,11 +24,10 @@ Finally, on your laptop, its time to use Git. Open a cmd.exe and enter the comma
 
 The image below shows an example. 
 
-![](C:\Work\nearest\docs\img\clone2.png)
+![](https://github.com/DavidEwan/nearest/blob/master/docs/img/clone2.png)
 
-Git will pull down from GitHub the repository and now you have a local copy to work with. If you now `cd` into the nearest folder you can start executing git commands. 
+Git will pull down from GitHub the repository and now you have a local copy to work with. If you now `cd` into the `nearest` folder you can start executing git commands. 
 
-*There are simpler ways to do this using desktop tools. You can probably do this all in VSCode and/or GitHub Desktop. I tend to stick to command line commands.* 
 
 #### Git Remotes
 
@@ -37,11 +36,16 @@ Git has this concept of remotes and this is what they mean:
 - origin - this is your personal 'nearest' repository in GitHub
 - upstream - this is the original hockeyhero/nearest repository in GitHub
 
-This will become important later on when its time to merge.  For now you can execute the command:
+If you execute the command:
 
 `git remote`
 
-and see that `origin` is defined but not `upstream`. 
+you can see that `origin` is defined but not `upstream`. So let's define `origin`. 
+Back in GitHub, navigate to the hockeyhero/nearest project page and press the Code button to expose the access string. 
+
+Back in your desktop, in the cmd.exe enter this git command: 
+`git remote add upstream <access string>`
+  
 
 ### Pull Request
 
