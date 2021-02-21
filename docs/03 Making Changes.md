@@ -8,7 +8,7 @@
 
 To work on the project you need to first fork the project. A fork is your own personal copy of the project. You create a fork by pressing the 'fork' button (see image below) on the *hockeyhero/nearest* project page. 
 
-![](https://github.com/DavidEwan/nearest/blob/master/docs/img/fork.png)
+![](https://github.com/hockeyhero/nearest/blob/master/docs/img/fork.png)
 
 GitHub will ask you where you want to put the fork; it should default to your personal GitHub account. 
 
@@ -16,7 +16,7 @@ Switching over to your local account, you should now have a repository called 'n
 
 In the image below you can see I've switched to my personal GitHub account, I'm on the project page for my personal copy of the 'nearest' repository (it even says its 'forked' from hockeyhero/nearest), and I'm going to select the 'Code' button the expose the access string. 
 
-![](https://github.com/DavidEwan/nearest/blob/master/docs/img/clone.png)
+![](https://github.com/hockeyhero/nearest/blob/master/docs/img/clone.png)
 
 Finally, on your laptop, its time to use Git. Open a cmd.exe and enter the command: 
 
@@ -24,7 +24,7 @@ Finally, on your laptop, its time to use Git. Open a cmd.exe and enter the comma
 
 The image below shows an example. 
 
-![](https://github.com/DavidEwan/nearest/blob/master/docs/img/clone2.png)
+![](https://github.com/hockeyhero/nearest/blob/master/docs/img/clone2.png)
 
 Git will pull down from GitHub the repository and now you have a local copy to work with. If you now `cd` into the `nearest` folder you can start executing git commands. 
 
