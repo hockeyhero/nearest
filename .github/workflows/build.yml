@@ -47,8 +47,8 @@ jobs:
         character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
         mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
         mysql database: 'hockeyhero_nearest'
-        mysql user: 'hockeyhero'
-        mysql password: 'hockeyhero'
+        mysql user: 'hero'
+        mysql password: 'ChangeMe01'
         
     - name: Build the Jar
       run: mvn clean package        
