@@ -4,18 +4,16 @@ name: nearest-build
 # run this workflow on demand, when there is a push to the repo, or on a pull request. 
 on:
   workflow_dispatch:
-#  push:
-#      - 'main'
-#      - 'master'
-#      - 'dev'
-#  pull_request:
-#    branches:
-#      - 'main'
-#      - 'master'
-#      - 'dev'
-#      
-# defaults:
-#  working_directory: ~/circleci-hockeyhero
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
  
 # jobs:
 #  build:
