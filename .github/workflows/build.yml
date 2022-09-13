@@ -31,15 +31,17 @@ jobs:
         distribution: 'microsoft'
         java-version: '17.0.3'
 
-      # decrypt secrets
     - name: Decrpyt Secrets
       run: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/config/application.properties.secrets -out src/main/resources/config/application.properties -k $MYPASSWORD
 
-      # Setup Maven
     - name: Set up Maven
       uses: stCarolas/setup-maven@v4.4
       with:
         maven-version: 3.8.2  
+        
+    - name: Build the Jar
+      run: mvn clean package        
+
 
     - uses: mirromutth/mysql-action@v1.1
       with:
@@ -64,24 +66,9 @@ jobs:
 #          username: ${{ secrets.DOCKERHUB_USERNAME }}
 #          password: ${{ secrets.DOCKERHUB_TOKEN }}      
 
-#      # decrypt secrets
-#      - run:
-#          name: Decrpyt Secrets
-#          command: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/config/application.properties.secrets -out src/main/resources/config/application.properties -k $MYPASSWORD
+  
 
-#      # Setup Maven
-#      - name: Set up Maven
-#        uses: stCarolas/setup-maven@v4.4
-#        with:
-#          maven-version: 3.8.2      
 
-#      # download and cache dependencies
-#      - name: Cache node modules
-#        uses: actions/cache@v3
-#        with:
-#          path: ~/.npm
-#          key: circleci-hockeyhero-{{ checksum "pom.xml" }}
-#          restore-keys: v1-npm-deps-
 
       # create the database
       # Our primary container isn't MYSQL so run a sleep command until it's ready.
@@ -105,9 +92,7 @@ jobs:
 #            mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/insertdata.sql
 #            mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/testprocedures.sql
  
-      # build the jar
-#      - name: Build the Jar
-#        run: mvn clean package 
+
 #      
       # build and push docker image to docker hub
 #      - name: Build and push the docker image to docker hub
