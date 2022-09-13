@@ -16,7 +16,7 @@ jobs:
     env:
       MYPASSWORD: ${{ secrets.MYPASSWORD }}
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
-      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_ROOT_PASSWORD: 'hockeyhero'
       MYSQL_DATABASE: hockeyhero_nearest
       SPRING_PROFILES_ACTIVE: test
       SPRING_DATASOURCE_USERNAME: root
