@@ -12,8 +12,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: 
+      image: circleci/openjdk:8-jdk-stretch #primary container
+      
     steps:
     - uses: actions/checkout@v3
+    
+    env:
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_DATABASE: hockeyhero_nearest
+      SPRING_PROFILES_ACTIVE: test
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ''
+      SPRING_JPA_HIBERNATE_DDL-AUTO: none   
+      SPRING_DATASOURCE_URL: jdbc:mysql://root@localhost/hockeyhero_nearest?useUnicode=true&characterEncoding=utf8
+    
  
 # jobs:
 #  build:
