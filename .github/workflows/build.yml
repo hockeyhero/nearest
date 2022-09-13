@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
+      MYPASSWORD: ${{ secrets.MYPASSWORD }}
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
       MYSQL_ROOT_PASSWORD: ''
       MYSQL_DATABASE: hockeyhero_nearest
