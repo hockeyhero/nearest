@@ -5,6 +5,10 @@
 # to build, in a cmd.exe navigate to the /target subfolder and execute: 
 #
 # docker build -f /path/to/this/Dockerfile -t app:hockeyhero_nearest .
+#
+# for example: docker build -f C:\Git\nearest\docker\nearest\Dockerfile -t app:hockeyhero_nearest .
+#
+# when done run docker images to list images. 
 
 # Derived from 
 FROM openjdk:8-jre-alpine
