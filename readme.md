@@ -1,3 +1,5 @@
+[![nearest-build](https://github.com/DavidEwan/nearest/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/DavidEwan/nearest/actions/workflows/build.yml)
+
 # Nearest
 
 Nearest is a service that given a geolocation, radius and possibly other criteria (e.g. age range) returns a set of users within that range. 
