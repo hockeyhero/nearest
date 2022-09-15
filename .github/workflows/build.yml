@@ -33,63 +33,57 @@ jobs:
         name: my-target
         path: target
 
-  test:
-    runs-on: ubuntu-latest
-    env:
-      MYPASSWORD: ${{ secrets.MYPASSWORD }}
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
-      MYSQL_ROOT_PASSWORD: 'hockeyhero'
-      MYSQL_DATABASE: hockeyhero_nearest
-      SPRING_PROFILES_ACTIVE: test
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: ''
-      SPRING_JPA_HIBERNATE_DDL-AUTO: none   
-      SPRING_DATASOURCE_URL: jdbc:mysql://root@localhost/hockeyhero_nearest?useUnicode=true&characterEncoding=utf8    
+  # test:
+  #  runs-on: ubuntu-latest
+  #  env:
+  #    MYPASSWORD: ${{ secrets.MYPASSWORD }}
+  #    MYSQL_ALLOW_EMPTY_PASSWORD: yes
+  #    MYSQL_ROOT_PASSWORD: 'hockeyhero'
+  #    MYSQL_DATABASE: hockeyhero_nearest
+  #    SPRING_PROFILES_ACTIVE: test
+  #    SPRING_DATASOURCE_USERNAME: root
+  #    SPRING_DATASOURCE_PASSWORD: ''
+  #    SPRING_JPA_HIBERNATE_DDL-AUTO: none   
+   #   SPRING_DATASOURCE_URL: jdbc:mysql://root@localhost/hockeyhero_nearest?useUnicode=true&characterEncoding=utf8    
    
-    steps: 
-    - name: Checkout for Testing
-      uses: actions/checkout@v3
+  #  steps: 
+  #  - name: Checkout for Testing
+  #    uses: actions/checkout@v3
       
-    - name: Download Target for Testing
-      uses: actions/download-artifact@v3
-      with:
-        name: my-target
-        path: target
+  #  - name: Download Target for Testing
+  #    uses: actions/download-artifact@v3
+  #    with:
+  #      name: my-target
+  #      path: target
       
-    - name: Setup Maven for Testing  
-    - uses: actions/setup-java@v3
-      with:
-        distribution: 'microsoft'
-        java-version: '17.0.3'   
+  #  - name: Setup Maven for Testing  
+  #  - uses: actions/setup-java@v3
+  #    with:
+  #      distribution: 'microsoft'
+ #       java-version: '17.0.3'   
     
-    - name: Decrpyt Secrets
-      run: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/config/application.properties.secrets -out src/main/resources/config/application.properties -k $MYPASSWORD
+ #   - name: Decrpyt Secrets
+ #     run: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/config/application.properties.secrets -out src/main/resources/config/application.properties -k $MYPASSWORD
 
-    - name: Setup up MySQL 
-      uses: mirromutth/mysql-action@v1.1
-      with:
-        host port: 3306 
-        container port: 3306 
-        character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-        mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
-        mysql database: 'hockeyhero_nearest'
-        mysql user: 'root'
-        mysql password: 'hockeyhero'
+ #   - name: Setup up MySQL 
+ #     uses: mirromutth/mysql-action@v1.1
+ #     with:
+ #       host port: 3306 
+ #       container port: 3306 
+ #       character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
+ #       mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
+ #       mysql database: 'hockeyhero_nearest'
+ #       mysql user: 'root'
+ #       mysql password: 'hockeyhero'
         
-    - name: Install MySQL CLI; Import dummy data; run an example query
-      run : |
-        sudo apt-get update
-        sudo apt-get install mysql-client
-        mysql -h 127.0.0.1 -u root --execute="create database hockeyhero_nearest"
-        mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/createtables.sql
-        mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/insertdata.sql
-        mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/testprocedures.sql    
-
-
-
-    
-    
-
+ #   - name: Install MySQL CLI; Import dummy data; run an example query
+ #     run : |
+ #       sudo apt-get update
+ #       sudo apt-get install mysql-client
+ #       mysql -h 127.0.0.1 -u root --execute="create database hockeyhero_nearest"
+ #       mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/createtables.sql
+ #       mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/insertdata.sql
+ #       mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/testprocedures.sql    
 #         
       
 #      # login to docker hub
@@ -98,10 +92,6 @@ jobs:
 #        with:
 #          username: ${{ secrets.DOCKERHUB_USERNAME }}
 #          password: ${{ secrets.DOCKERHUB_TOKEN }}      
-
-  
-
-
 
       # create the database
       # Our primary container isn't MYSQL so run a sleep command until it's ready.
