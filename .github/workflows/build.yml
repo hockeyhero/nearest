@@ -11,8 +11,30 @@ on:
 
 jobs:
   build:
+    runs-on: ubuntu-latest      
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'microsoft'
+        java-version: '17.0.3'
+
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4.4
+      with:
+        maven-version: 3.8.2  
+        
+    - name: Build the Jar
+      run: mvn clean package -DskipTests
+      
+    - name: Upload target folder for test step
+      uses: actions/upload-artifact@v3
+      with:
+        name: my-target
+        path: target
+
+  test:
     runs-on: ubuntu-latest
-    
     env:
       MYPASSWORD: ${{ secrets.MYPASSWORD }}
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
@@ -23,25 +45,26 @@ jobs:
       SPRING_DATASOURCE_PASSWORD: ''
       SPRING_JPA_HIBERNATE_DDL-AUTO: none   
       SPRING_DATASOURCE_URL: jdbc:mysql://root@localhost/hockeyhero_nearest?useUnicode=true&characterEncoding=utf8    
+   
+    steps: 
+    - name: Checkout for Testing
+      uses: actions/checkout@v3
       
-    steps:
-    - uses: actions/checkout@v3
+    - name: Download Target for Testing
+      uses: actions/download-artifact@v3
+      with:
+        name: my-target
+        path: target
+      
+    - name: Setup Maven for Testing  
     - uses: actions/setup-java@v3
       with:
         distribution: 'microsoft'
-        java-version: '17.0.3'
-
+        java-version: '17.0.3'   
+    
     - name: Decrpyt Secrets
       run: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/config/application.properties.secrets -out src/main/resources/config/application.properties -k $MYPASSWORD
 
-    - name: Set up Maven
-      uses: stCarolas/setup-maven@v4.4
-      with:
-        maven-version: 3.8.2  
-        
-    - name: Build the Jar
-      run: mvn clean package -DskipTests  
-        
     - name: Setup up MySQL 
       uses: mirromutth/mysql-action@v1.1
       with:
@@ -53,7 +76,14 @@ jobs:
         mysql user: 'root'
         mysql password: 'hockeyhero'
         
-    
+    - name: Install MySQL CLI; Import dummy data; run an example query
+      run : |
+        sudo apt-get update
+        sudo apt-get install mysql-client
+        mysql -h 127.0.0.1 -u root --execute="create database hockeyhero_nearest"
+        mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/createtables.sql
+        mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/insertdata.sql
+        mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/testprocedures.sql    
 
 
 
