@@ -1,6 +1,6 @@
 # Testing Nearest  
 
-Its possible to test the Nearest service to prove its working.  This also helps prove your environment.  
+Its possible to test the Nearest service locally to prove its working.  This also helps prove your environment.  
 I'm going to include screen shots from my workstation. For context my Git Repo is here: 
 
 `C:\Git2\nearest`
@@ -27,9 +27,9 @@ In the cmd.exe navigate to the docker\nearest subfolder of the repo. If you edit
 
 `docker build -f C:\Git2\nearest\docker\nearest\Dockerfile -t app:hockeyhero_nearest .`  
 
-Again you can confirm the image was built by running the docker command `docker images` to list the images. 
+Again you can confirm the image was built by running the docker command `docker images` to list the images. In the picture below you can see Ive run two commands to show I have no images and no containers. 
 
-[image](img/docker_no_images.png)
+![docker images](img/docker_no_images.png)
 
 Finally, in the cmd.exe navigate to the docker subfolder of the repo.  If you edit the docker-compose.yml file within you will see the instructions you need to run in order to launch the system. In the cmd.exe run the command: 
 
@@ -52,15 +52,15 @@ If you look at the code (HeroKeysController.java) you will see two things:
 1. the request mapping maps to `/herokeys`
 2. The methods are annotated (e.g. @PostMapping, @GetMapping)
 
-[image](img/rest_mapping_general.png)
+![rest api general](img/rest_mapping_general.png)
 
 Based on this you can form queries within Postman. For example : a GET to localhost:8080/herokeys returns all 150 records. 
 
-[image](img/postman_get_all.png)
+![postman get all](img/postman_get_all.png)
 
 Back in HeroKeysController.java, there is a second GET method that takes arguments. 
 
-[image](img/rest_mapping_get.png)
+![rest mapping get](img/rest_mapping_get.png)
 
 There are several things to note: 
 
@@ -70,7 +70,7 @@ There are several things to note:
 
 When you call this method you get a return set of two values - id and distance from you. 
 
-[image](img/postman_search.png)
+![postman search](img/postman_search.png)
 
 
 
