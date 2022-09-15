@@ -39,6 +39,9 @@ jobs:
       with:
         maven-version: 3.8.2  
         
+    - name: Build the Jar
+      run: mvn clean package -DskipTests  
+        
     - name: Setup up MySQL 
       uses: mirromutth/mysql-action@v1.1
       with:
@@ -50,8 +53,7 @@ jobs:
         mysql user: 'root'
         mysql password: 'hockeyhero'
         
-    - name: Build the Jar
-      run: mvn clean package        
+    
 
 
 
