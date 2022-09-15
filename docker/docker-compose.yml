@@ -6,7 +6,7 @@
 # docker-compose down
 # docker-compose up --build
 
-version: '3.6'
+version: '3.8'
 services:
 
     hockeyhero_nearest-mysql:
@@ -19,7 +19,7 @@ services:
             # target: /docker-entrypoint-initdb.d
         restart: on-failure
         environment:
-            - MYSQL_USER=root
+            - MYSQL_ROOT_USER=root
             - MYSQL_ROOT_PASSWORD=hockeyhero
             - MYSQL_DATABASE=hockeyhero_nearest
         cap_add:
@@ -31,8 +31,7 @@ services:
     hockeyhero_nearest-app:
         depends_on:
             - hockeyhero_nearest-mysql
-        #image: app:hockeyhero_nearest 
-        image: davidewan/hockeyhero_nearest:34
+        image: app:hockeyhero_nearest 
         container_name: nearest_app
         restart: on-failure
         environment:

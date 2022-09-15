@@ -54,6 +54,11 @@ Atom, Notepad++
 
 You need docker installed on your machine. 
 
+For docker to work, Virtualization on your Win10 machine must be turned on. To enable (because you want to run Docker): 
+
+`dism.exe /Online /Enable-Feauture:Microsoft-Hyper-V /All`
+`bcdedit /set hypervisorlaunchtype auto`
+
 ## Postman
 
 You need Postman installed on your machine. 
