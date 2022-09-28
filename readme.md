@@ -1,4 +1,4 @@
-[![nearest-build](https://github.com/DavidEwan/nearest/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/DavidEwan/nearest/actions/workflows/build.yml)
+[![nearest-build](https://github.com/hockeyhero/nearest/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/hockeyhero/nearest/actions/workflows/build.yml)
 
 # Nearest
 
