@@ -33,9 +33,19 @@ jobs:
         name: my-target
         path: target
 
-  # test:
-  #  runs-on: ubuntu-latest
-  #  env:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      DB_DATABASE: test_db
+      DB_USER: root
+      DB_PASSWORD: root
+      
+    steps:
+    - name: Set up MySQL
+      run: |
+        sudo /etc/init.d/mysql start
+        mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+      
   #    MYPASSWORD: ${{ secrets.MYPASSWORD }}
   #    MYSQL_ALLOW_EMPTY_PASSWORD: yes
   #    MYSQL_ROOT_PASSWORD: 'hockeyhero'
@@ -46,6 +56,7 @@ jobs:
   #    SPRING_JPA_HIBERNATE_DDL-AUTO: none   
    #   SPRING_DATASOURCE_URL: jdbc:mysql://root@localhost/hockeyhero_nearest?useUnicode=true&characterEncoding=utf8    
    
+      
   #  steps: 
   #  - name: Checkout for Testing
   #    uses: actions/checkout@v3
