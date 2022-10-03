@@ -36,10 +36,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      DB_DATABASE: test_db
+      DB_DATABASE: hockeyhero_nearest
       DB_USER: root
       DB_PASSWORD: root
       
+      SPRING_PROFILES_ACTIVE: test
+      SPRING_JPA_HIBERNATE_DDL-AUTO: none   
+      SPRING_DATASOURCE_URL: jdbc:mysql://root@localhost/hockeyhero_nearest?useUnicode=true&characterEncoding=utf8    
+
     steps:
     - name: Set up MySQL
       run: |
