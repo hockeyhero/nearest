@@ -11,7 +11,16 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest      
+    runs-on: ubuntu-latest 
+    env:
+      DB_DATABASE: hockeyhero_nearest
+      DB_USER: root
+      DB_PASSWORD: root
+      
+      SPRING_PROFILES_ACTIVE: test
+      SPRING_JPA_HIBERNATE_DDL-AUTO: none   
+      SPRING_DATASOURCE_URL: jdbc:mysql://root@localhost/hockeyhero_nearest?useUnicode=true&characterEncoding=utf8    
+
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-java@v3
@@ -27,28 +36,26 @@ jobs:
     - name: Build the Jar
       run: mvn clean package -DskipTests
       
-    - name: Upload target folder for test step
-      uses: actions/upload-artifact@v3
-      with:
-        name: my-target
-        path: target
+   # - name: Upload target folder for test step
+   #   uses: actions/upload-artifact@v3
+   #   with:
+   #     name: my-target
+   #     path: target
 
-  test:
-    runs-on: ubuntu-latest
-    env:
-      DB_DATABASE: hockeyhero_nearest
-      DB_USER: root
-      DB_PASSWORD: root
-      
-      SPRING_PROFILES_ACTIVE: test
-      SPRING_JPA_HIBERNATE_DDL-AUTO: none   
-      SPRING_DATASOURCE_URL: jdbc:mysql://root@localhost/hockeyhero_nearest?useUnicode=true&characterEncoding=utf8    
+  #test:
+  #  runs-on: ubuntu-latest
 
-    steps:
+  #  steps:
     - name: Set up MySQL
       run: |
         sudo /etc/init.d/mysql start
         mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+        
+ #   - name: Download Target for Testing
+ #     uses: actions/download-artifact@v3
+ #     with:
+ #       name: my-target
+ #       path: target
       
   #    MYPASSWORD: ${{ secrets.MYPASSWORD }}
   #    MYSQL_ALLOW_EMPTY_PASSWORD: yes
@@ -77,8 +84,8 @@ jobs:
   #      distribution: 'microsoft'
  #       java-version: '17.0.3'   
     
- #   - name: Decrpyt Secrets
- #     run: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/config/application.properties.secrets -out src/main/resources/config/application.properties -k $MYPASSWORD
+    - name: Decrpyt Secrets
+      run: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/config/application.properties.secrets -out src/main/resources/config/application.properties -k $MYPASSWORD
 
  #   - name: Setup up MySQL 
  #     uses: mirromutth/mysql-action@v1.1
