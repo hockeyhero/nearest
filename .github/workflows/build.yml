@@ -36,56 +36,18 @@ jobs:
     - name: Build the Jar
       run: mvn clean package -DskipTests
       
-   # - name: Upload target folder for test step
-   #   uses: actions/upload-artifact@v3
-   #   with:
-   #     name: my-target
-   #     path: target
-
-  #test:
-  #  runs-on: ubuntu-latest
-
-  #  steps:
     - name: Set up MySQL
       run: |
         sudo /etc/init.d/mysql start
-        mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-        
- #   - name: Download Target for Testing
- #     uses: actions/download-artifact@v3
- #     with:
- #       name: my-target
- #       path: target
-      
-  #    MYPASSWORD: ${{ secrets.MYPASSWORD }}
-  #    MYSQL_ALLOW_EMPTY_PASSWORD: yes
-  #    MYSQL_ROOT_PASSWORD: 'hockeyhero'
-  #    MYSQL_DATABASE: hockeyhero_nearest
-  #    SPRING_PROFILES_ACTIVE: test
-  #    SPRING_DATASOURCE_USERNAME: root
-  #    SPRING_DATASOURCE_PASSWORD: ''
-  #    SPRING_JPA_HIBERNATE_DDL-AUTO: none   
-   #   SPRING_DATASOURCE_URL: jdbc:mysql://root@localhost/hockeyhero_nearest?useUnicode=true&characterEncoding=utf8    
-   
-      
-  #  steps: 
-  #  - name: Checkout for Testing
-  #    uses: actions/checkout@v3
-      
-  #  - name: Download Target for Testing
-  #    uses: actions/download-artifact@v3
-  #    with:
-  #      name: my-target
-  #      path: target
-      
-  #  - name: Setup Maven for Testing  
-  #  - uses: actions/setup-java@v3
-  #    with:
-  #      distribution: 'microsoft'
- #       java-version: '17.0.3'   
+         mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} 
+ #       mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/createtables.sql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+ #       mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/insertdata.sql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+ #       mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/testprocedures.sql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
     
-    - name: Decrpyt Secrets
-      run: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/config/application.properties.secrets -out src/main/resources/config/application.properties -k $MYPASSWORD
+ #        mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+
+ #   - name: Decrpyt Secrets
+ #     run: openssl enc -d -aes-256-ecb -md md5 -in src/main/resources/config/application.properties.secrets -out src/main/resources/config/application.properties -k $MYPASSWORD
 
  #   - name: Setup up MySQL 
  #     uses: mirromutth/mysql-action@v1.1
