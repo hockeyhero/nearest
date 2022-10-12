@@ -1,0 +1,310 @@
+{
+	"info": {
+		"_postman_id": "2d976ddb-88d5-4ce3-bee5-a82c87a66239",
+		"name": "nearest-CRUD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6193541"
+	},
+	"item": [
+		{
+			"name": "Add a new user id 200",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.globals.set(\"userid\", pm.response.json().id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true,
+				"strictSSL": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"200\",\r\n    \"hideMe\":\"false\",\r\n    \"latitude\":\"42.989272\",\r\n    \"longitude\":\"-81.260383\",\r\n    \"myposition\":\"1\",\r\n    \"age\":\"50\",\r\n    \"skill\":\"10\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/herokeys",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"herokeys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find top goalies within 2 km",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"1 record returned\", function() {\r",
+							"    const records = pm.response.json(); \r",
+							"    pm.expect(records.length).to.eq(2);\r",
+							"}); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"followOriginalHttpMethod": true,
+				"strictSSL": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/herokeys/search?latitude=42.987138&longitude=-81.248800&radius=2&position=1&lowSkill=10&highSkill=10",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"herokeys",
+						"search"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "42.987138"
+						},
+						{
+							"key": "longitude",
+							"value": "-81.248800"
+						},
+						{
+							"key": "radius",
+							"value": "2"
+						},
+						{
+							"key": "position",
+							"value": "1"
+						},
+						{
+							"key": "lowSkill",
+							"value": "10"
+						},
+						{
+							"key": "highSkill",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user id 200 hideMe to true",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"HideMe is true\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.hideMe === true).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":{{userid}},\r\n    \"hideMe\":\"true\",\r\n    \"latitude\":\"42.987138\",\r\n    \"longitude\":\"-81.248800\",\r\n    \"myposition\":\"1\",\r\n    \"age\":\"50\",\r\n    \"skill\":\"10\"\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/herokeys",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"herokeys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find top goalies within 2 km again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"1 record returned\", function() {\r",
+							"    const records = pm.response.json(); \r",
+							"    pm.expect(records.length).to.eq(1);\r",
+							"}); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"followOriginalHttpMethod": true,
+				"strictSSL": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/herokeys/search?latitude=42.987138&longitude=-81.248800&radius=2&position=1&lowSkill=10&highSkill=10",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"herokeys",
+						"search"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "42.987138"
+						},
+						{
+							"key": "longitude",
+							"value": "-81.248800"
+						},
+						{
+							"key": "radius",
+							"value": "2"
+						},
+						{
+							"key": "position",
+							"value": "1"
+						},
+						{
+							"key": "lowSkill",
+							"value": "10"
+						},
+						{
+							"key": "highSkill",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/herokeys/{{userid}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"herokeys",
+						"{{userid}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
