@@ -66,7 +66,21 @@ jobs:
       run: |
         sudo /etc/init.d/mysql start      
         mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/testprocedures.sql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-                  
+      
+    - name: Install Postman CLI
+      run: |
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+          
+    - name: Login to Postman CLI
+      run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      
+    - name: Run API tests
+      run: |
+          postman collection run "6193541-a430ba00-51aa-4eea-a107-ef61bc68d3df" -e "6193541-093bcd8a-994f-4375-bf71-4199cc5a0380" --integration-id "124875-${{ github.run_id }}"
+          postman collection run "6193541-8e7acb0e-6423-47fd-9e91-48e03ad2b0e5" -e "6193541-093bcd8a-994f-4375-bf71-4199cc5a0380" --integration-id "124875-${{ github.run_id }}"
+          # Lint your API using Postman CLI
+          postman api lint --integration-id 124875
+
     - name: Deploy to Heroku
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       env:
