@@ -31,3 +31,9 @@ This will bring up a Run Collection panel. You can accept the default settings b
 Press the `Run Collection` button. 
 
 ![Postman_RunCollectionButton](img/run_collection_button.png)
+
+The collection will run. Each step of the collection will run. After each step tests will run to validate the response. On completion the screen should show all tests were successful. 
+
+![Postman_PostCollectionRun](img/post_run_collection.png)
+
+
