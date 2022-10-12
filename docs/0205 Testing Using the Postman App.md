@@ -31,37 +31,3 @@ This will bring up a Run Collection panel. You can accept the default settings b
 Press the `Run Collection` button. 
 
 ![Postman_RunCollectionButton](img/run_collection_button.png)
-
-
-With the docker images running you can test the system using Postman. 
-
-Some background. If you read the `docker\mysql\Dockerfile` at the bottom you will see a command to ensure some start up scripts are run when the MySQL container starts: 
-
-`COPY ./sql-scripts/ /docker-entrypoint-initdb.d/`
-
-This seeds the db with data. There are 150 records added (see `InsertData.sql`) and the search pattern is described in `TestProcedures.sql` - basically by increasing the radius of your search to a set amount, 25 more players are found. For this test set the centre is Victoria Park London ON (42.987138, -81.248800). You might as well use the same. I'm pretty sure there's a repeating pattern in there too - like the same increment of goalies is found, the same increment of refs is found and so on. The point is you can test. 
-
-If you look at the code (HeroKeysController.java) you will see two things: 
-
-1. the request mapping maps to `/herokeys`
-2. The methods are annotated (e.g. @PostMapping, @GetMapping)
-
-![rest api general](img/rest_mapping_general.png)
-
-Based on this you can form queries within Postman. For example : a GET to localhost:8080/herokeys returns all 150 records. 
-
-![postman get all](img/postman_get_all.png)
-
-Back in HeroKeysController.java, there is a second GET method that takes arguments. 
-
-![rest mapping get](img/rest_mapping_get.png)
-
-There are several things to note: 
-
-1. To call this method you need to add `search`
-2. Three arguments are requried - latitude, longitude and radius. 
-3. Other arguments (position, age, skill) are optional. 
-
-When you call this method you get a return set of two values - id and distance from you. 
-
-![postman search](img/postman_search.png)
