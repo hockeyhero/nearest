@@ -37,7 +37,7 @@ jobs:
       run: mvn clean package -DskipTests
       
     - name: Copy jar file to here
-      run: copy .\target\*.jar app.jar
+      run: cp ./target/*.jar app.jar
       
     - name: Analyze code with SonarQube
       env:
@@ -71,7 +71,7 @@ jobs:
         mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/testprocedures.sql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
     
     - name: run the App
-      run: java ${JAVA_OPTS} -jar /app.jar
+      run: java ${JAVA_OPTS} -jar app.jar
        
     - name: Install Postman CLI
       run: |
