@@ -52,6 +52,8 @@ jobs:
         sudo /etc/init.d/mysql start
          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} 
          
+         GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '%password%' WITH GRANT OPTION;GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '%password%' WITH GRANT OPTION;
+         
     - name: Create Tables
       run: |
         sudo /etc/init.d/mysql start        
@@ -62,6 +64,11 @@ jobs:
         sudo /etc/init.d/mysql start          
         mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/insertdata.sql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
  
+    - name: Grant Privileges
+      run: | 
+        sudo /etc/init.d/mysql start 
+        mysql -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '${{ env.DB_PASSWORD }}' WITH GRANT OPTION;' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} 
+        
     - name: Run Test Procedures
       run: |
         sudo /etc/init.d/mysql start      
