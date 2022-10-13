@@ -69,6 +69,7 @@ jobs:
 # Experiencing socket hang ups using this technique. Something to do with TCP/IP'keep-alive' 
     - name: Install Postman CLI
       run: |
+          sleep(30)
           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
           
     - name: Login to Postman CLI
@@ -76,8 +77,8 @@ jobs:
       
     - name: Run API tests
       run: |
-          postman collection run "6193541-a430ba00-51aa-4eea-a107-ef61bc68d3df" -e "6193541-093bcd8a-994f-4375-bf71-4199cc5a0380" --integration-id "124875-${{ github.run_id }} --timeout-request 500 --verbose"
-          postman collection run "6193541-8e7acb0e-6423-47fd-9e91-48e03ad2b0e5" -e "6193541-093bcd8a-994f-4375-bf71-4199cc5a0380" --integration-id "124875-${{ github.run_id }} --timeout-request 500 --verbose"
+          postman collection run "6193541-a430ba00-51aa-4eea-a107-ef61bc68d3df" -e "6193541-093bcd8a-994f-4375-bf71-4199cc5a0380" --integration-id "124875-${{ github.run_id }} --timeout-request 5000"
+          postman collection run "6193541-8e7acb0e-6423-47fd-9e91-48e03ad2b0e5" -e "6193541-093bcd8a-994f-4375-bf71-4199cc5a0380" --integration-id "124875-${{ github.run_id }} --timeout-request 5000"
           # Lint your API using Postman CLI
           postman api lint --integration-id 124875
 

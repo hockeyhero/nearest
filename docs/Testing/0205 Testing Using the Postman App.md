@@ -12,7 +12,9 @@ In Postman open a new workspace. Use the `Import` command to import all postman 
 
 ![Postman_Import](img/import.png)
 
-With the Collections imported consider taking the time to examine them. For each indvidual step, look at the Params, the Headers, the Pre-Request and the Test scripts - just so you can see what's going on. 
+Currently there are two collections - one to test Find Requests and a second to test CRUD (including the hideMe). There are also 2 environment files - one for DEV and a second for TEST. 
+
+With the files imported consider taking the time to examine the collections. For each indvidual step, look at the Params, the Headers, the Pre-Request and the Test scripts - just so you can see what's going on. 
 
 ## Setup Environment
 

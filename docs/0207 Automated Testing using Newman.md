@@ -1,5 +1,0 @@
-# Automated Testing using Neuman
-
-
-
-

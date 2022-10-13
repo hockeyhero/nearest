@@ -451,9 +451,9 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"25 records returned\", function() {\r",
+							"pm.test(\"13 records returned\", function() {\r",
 							"    const records = pm.response.json(); \r",
-							"    pm.expect(records.length).to.eq(8);\r",
+							"    pm.expect(records.length).to.eq(13);\r",
 							"}); "
 						],
 						"type": "text/javascript"
@@ -586,9 +586,9 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"pm.test(\"75 records returned\", function() {\r",
+							"pm.test(\"40 records returned\", function() {\r",
 							"    const records = pm.response.json(); \r",
-							"    pm.expect(records.length).to.eq(75);\r",
+							"    pm.expect(records.length).to.eq(40);\r",
 							"}); "
 						],
 						"type": "text/javascript"

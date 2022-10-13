@@ -62,7 +62,3 @@ For docker to work, Virtualization on your Win10 machine must be turned on. To e
 ## Postman
 
 You need Postman installed on your machine. 
-
-# Testing the Environment
-
-You have all the tools installed, but does it work? 
