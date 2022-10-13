@@ -65,10 +65,10 @@ jobs:
         sudo /etc/init.d/mysql start          
         mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/insertdata.sql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
  
-    - name: Grant Privilges
-      run: | 
-         sudo /etc/init.d/mysql start
-         mysql -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '${{ env.DB_PASSWORD }}' WITH GRANT OPTION;'
+    #- name: Grant Privilges
+    #  run: | 
+    #     sudo /etc/init.d/mysql start
+    #     mysql -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '${{ env.DB_PASSWORD }}' WITH GRANT OPTION;'
          
     - name: Run Test Procedures
       run: |
