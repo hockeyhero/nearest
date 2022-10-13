@@ -65,22 +65,8 @@ jobs:
       run: |
         cd ./docker
         docker compose up -d 
- 
-    - name: Install newman
-      run: |
-        npm install -g newman
-      
-    - name: Run Postman Find collection
-      run: |
-        cd ./postman
-        newman run nearest-Find.postman_collection.json -e TEST.postman_environment.json
-
-    - name: Run Postman CRUD collection
-      run: |
-        cd ./postman
-        newman run nearest-CRUD.postman_collection.json -e TEST.postman_environment.json
-       
-# socket hang ups using this technique 
+        
+# Experiencing socket hang ups using this technique. Something to do with TCP/IP'keep-alive' 
 #    - name: Install Postman CLI
 #      run: |
 #          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
