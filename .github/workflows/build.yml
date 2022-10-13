@@ -69,25 +69,17 @@ jobs:
     - name: Install newman
       run: |
         npm install -g newman
-        npm install -g newman-reporter-htmlextra
-
-    - name: Make Directory for results
-      run: mkdir -p testResults
       
     - name: Run Postman Find collection
       run: |
-        newman run ./postman/nearest-Find.postman_collection.json -e ./postman/TEST.postman_environment.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/FindReport.html
+        cd ./postman
+        newman run nearest-Find.postman_collection.json -e TEST.postman_environment.json
 
     - name: Run Postman CRUD collection
       run: |
-        newman run ./postman/nearest-CRUD.postman_collection.json -e ./postman/TEST.postman_environment.json -r htmlextra --reporter-htmlextra-export testResults/htmlreport.html --reporter-htmlextra-darkTheme  > testResults/CrudReport.html
-
-    - name: Output the run Details
-      uses: actions/upload-artifact@v2
-      with:
-        name: RunReports
-        path: testResults
-          
+        cd ./postman
+        newman run nearest-CRUD.postman_collection.json -e TEST.postman_environment.json
+       
 # socket hang ups using this technique 
 #    - name: Install Postman CLI
 #      run: |
