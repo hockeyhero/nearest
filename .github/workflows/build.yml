@@ -76,7 +76,7 @@ jobs:
         mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/testprocedures.sql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
                 
     - name: run the App
-      run: java ${JAVA_OPTS} -Dspring.profiles.active=prod -Dspring_datasource_username=${{ env.DB_USER }} -Dspring_datasource_password=${{ env.DB_PASSWORD }}  -jar app.jar
+      run: java ${JAVA_OPTS} -Dspring.profiles.active=prod -Dspring_datasource_username=${{ env.DB_USER }} -Dspring_datasource_password= -jar app.jar
        
     - name: Install Postman CLI
       run: |
