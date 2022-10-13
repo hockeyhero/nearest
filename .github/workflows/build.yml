@@ -60,7 +60,7 @@ jobs:
     - name: Docker Compose Up
       run: |
         cd ./docker
-        docker-compose up 
+        docker compose up -d 
              
     - name: Install Postman CLI
       run: |
