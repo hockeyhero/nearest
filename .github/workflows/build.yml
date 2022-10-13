@@ -36,10 +36,7 @@ jobs:
     - name: Build the Jar
       run: mvn clean package -DskipTests
       
-    - name: Copy jar file to here
-      run: cp ./target/*.jar app.jar
-      
-    - name: Analyze code with SonarQube
+    - name: Analyze Code with SonarQube
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -48,50 +45,23 @@ jobs:
               ./mvnw -ntp initialize sonar:sonar -Dsonar.host.url=https://sonarcloud.io
         else
               echo No SONAR_TOKEN, skipping...
-        fi      
-    
-    - name: Skip grant tables
+        fi    
+      
+    - name: Build the MySql docker image
       run: |
-       sudo /etc/init.d/mysql start
-       mysqld --skip-grant-tables
-
-    - name: Reset password
+        cd ./docker/mysql
+        docker build -t mysql:hockeyhero_nearest .
+      
+    - name: Build the App docker image
       run: |
-        sudo /etc/init.d/mysql start
-        mysqld -u root mysql
-        
-        
-    
-$mysql> UPDATE user SET Password=PASSWORD('my_password') where USER='root';
-$mysql> FLUSH PRIVILEGES;   
-    - name: Create Database
+       cd ./target
+       docker build -f ./../docker/nearest/Dockerfile -t app:hockeyhero_nearest .
+             
+    - name: Docker Compose Up
       run: |
-        sudo /etc/init.d/mysql start
-         mysql -h 127.0.0.1 -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }} 
-         
-    - name: Create Tables
-      run: |
-        sudo /etc/init.d/mysql start        
-         mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/createtables.sql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-         
-    - name: Insert Data
-      run: |
-        sudo /etc/init.d/mysql start          
-        mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/insertdata.sql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
- 
-    #- name: Grant Privilges
-    #  run: | 
-    #     sudo /etc/init.d/mysql start
-    #     mysql -e 'GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '${{ env.DB_PASSWORD }}' WITH GRANT OPTION;'
-         
-    - name: Run Test Procedures
-      run: |
-        sudo /etc/init.d/mysql start      
-        mysql -h 127.0.0.1 -u root hockeyhero_nearest < src/test/resources/testprocedures.sql -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-                
-    - name: run the App
-      run: java ${JAVA_OPTS} -Dspring.profiles.active=prod -Dspring_datasource_username=${{ env.DB_USER }} -Dspring_datasource_password=${{ env.DB_PASSWORD }} -jar app.jar
-       
+        cd ./docker
+        docker-compose up 
+             
     - name: Install Postman CLI
       run: |
           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
