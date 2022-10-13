@@ -49,7 +49,21 @@ jobs:
         else
               echo No SONAR_TOKEN, skipping...
         fi      
-      
+    
+    - name: Skip grant tables
+      run: |
+       sudo /etc/init.d/mysql start
+       mysqld --skip-grant-tables
+
+    - name: Reset password
+      run: |
+        sudo /etc/init.d/mysql start
+        mysqld -u root mysql
+        
+        
+    
+$mysql> UPDATE user SET Password=PASSWORD('my_password') where USER='root';
+$mysql> FLUSH PRIVILEGES;   
     - name: Create Database
       run: |
         sudo /etc/init.d/mysql start
