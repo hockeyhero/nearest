@@ -64,10 +64,10 @@ jobs:
     - name: Docker Compose Up
       run: |
         cd ./docker
-        docker compose up -d 
+        docker-compose up -d 
         
-    - name: Sleep for 30 seconds
-      run: sleep 30s
+    - name: Sleep for 60 seconds
+      run: sleep 60s
       shell: bash
          
     - name: Install Postman CLI
