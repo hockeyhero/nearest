@@ -97,6 +97,6 @@ jobs:
       
     - name: Push to Docker Hub
       run: | 
-        docker push davidewan/hockeyhero_nearest
+        docker push davidewan/app:hockeyhero_nearest
 
 
