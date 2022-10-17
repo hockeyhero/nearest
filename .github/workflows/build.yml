@@ -35,7 +35,6 @@ jobs:
     - name: Change permission on mvnw
       run: |
         chmod +x ./mvnw
-        npm run ci:backend:test
           
     - name: Build the Jar
       run: mvn clean package -DskipTests
