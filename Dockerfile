@@ -16,7 +16,7 @@ ENV JAVA_OPTS=""
 
 # src must be inside the context of the build. Either copy the jar file here
 # first, or run this command from .\target
-ADD *.jar /app.jar
+COPY /target/*.jar /app.jar
 
 # Add docker-compose-wait tool -------------------
 ENV WAIT_VERSION 2.7.3
