@@ -48,7 +48,7 @@ jobs:
           
     - name: Build the Nearest docker image
       run: |
-        docker build -f Dockerfile -t app:hockeyhero_nearest ./target
+        docker build -f Dockerfile -t app:hockeyhero_nearest .
 
     - name: Build the MySql docker image
       run: |
