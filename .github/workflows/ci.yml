@@ -1,0 +1,130 @@
+name: nearest-build
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  pipeline:
+    name: nearest pipeline
+    runs-on: ubuntu-latest 
+    if: "!contains(github.event.head_commit.message, '[ci skip]') && !contains(github.event.head_commit.message, '[skip ci]') && !contains(github.event.pull_request.title, '[skip ci]') && !contains(github.event.pull_request.title, '[ci skip]')"
+    timeout-minutes: 40
+    env:
+     REPO: davidewan/hockeyhero_nearest
+     DB_DATABASE: hockeyhero_nearest
+     DB_USER: root
+     DB_PASSWORD: root
+      
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+       # fetch all commits for semver
+       fetch-depth: 0
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+      
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'microsoft'
+        java-version: '17.0.3'
+    
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v4.4
+      with:
+        maven-version: 3.8.2  
+
+    - name: Change permission on mvnw
+      run: |
+        chmod +x ./mvnw
+          
+    - name: Build the Jar
+      run: mvn clean package -DskipTests
+          
+    - name: Build the Nearest docker image
+      run: |
+        docker build -f Dockerfile -t app:hockeyhero_nearest .
+
+    - name: Build the MySql docker image
+      run: |
+        cd ./docker/mysql
+        docker build -t mysql:hockeyhero_nearest .
+
+    - name: Docker Compose Up
+      run: |
+        cd ./docker
+        docker-compose up -d 
+        
+    - name: Sleep for 60 seconds
+      run: sleep 60s
+      shell: bash
+         
+    - name: Install Postman CLI
+      run: |
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+          
+    - name: Login to Postman CLI
+      run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      
+    - name: Run API tests
+      run: |
+          postman collection run "6193541-a430ba00-51aa-4eea-a107-ef61bc68d3df" -e "6193541-093bcd8a-994f-4375-bf71-4199cc5a0380" --integration-id "124875-${{ github.run_id }} --timeout-request 5000"
+          postman collection run "6193541-8e7acb0e-6423-47fd-9e91-48e03ad2b0e5" -e "6193541-093bcd8a-994f-4375-bf71-4199cc5a0380" --integration-id "124875-${{ github.run_id }} --timeout-request 5000"
+          # Lint your API using Postman CLI
+          postman api lint --integration-id 124875
+
+    - name: Stop Containers
+      if: always()
+      run: |
+        cd ./docker
+        docker compose down
+
+    - name: Semantic Versioning
+      if: ${{ github.ref == 'refs/heads/main' }}
+      id: versioning
+      uses: PaulHatch/semantic-version@v4.0.2
+      with:
+        tag_prefix: "v"
+        major_pattern: "break:"
+        minor_pattern: "feat:"
+        format: "${major}.${minor}.${patch}-prerelease${increment}"
+
+    - name: Set up QEMU
+      if: ${{ github.ref == 'refs/heads/main' }}
+      uses: docker/setup-qemu-action@v2
+
+    - name: Set up Docker Buildx
+      if: ${{ github.ref == 'refs/heads/main' }}
+      uses: docker/setup-buildx-action@v2
+
+    - name: Login to DockerHub
+      if: ${{ github.ref == 'refs/heads/main' }}
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push
+      if: ${{ github.ref == 'refs/heads/main' }}
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        push: true
+        tags: ${{ env.REPO }}:latest,${{ env.REPO }}:${{ steps.versioning.outputs.version }}
+        
+    - name: Release
+      if: ${{ github.ref == 'refs/heads/main' }}
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.versioning.outputs.version }}
+        release_name: ${{ steps.versioning.outputs.version }}
+        prerelease: true
+
+
