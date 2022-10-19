@@ -2,11 +2,10 @@
 
 # Dockerfile to build hockeyhero_nearest image
 # -------------------------------------------------
-# to build, in a cmd.exe navigate to the /target subfolder and execute: 
+# To build the docker image, from a cmd.exe in the root of the repo
+# run this command:  
 #
-# docker build -f /path/to/this/Dockerfile -t app:hockeyhero_nearest .
-#
-# for example: docker build -f C:\Git\nearest\docker\nearest\Dockerfile -t app:hockeyhero_nearest .
+# docker build -f Dockerfile -t app:hockeyhero_nearest .
 #
 # when done run docker images to list images. 
 
